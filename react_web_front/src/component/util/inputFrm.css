@@ -1,0 +1,11 @@
+/*필요한 곳에서 div크기에 따라 달라지게끔 display:block으로 설정*/
+.input-form {
+  display: block;
+  width: 100%;
+  padding: 0.7rem;
+  background-color: #fff;
+  outline: none;
+  border: 2px solid #ccc;
+  box-sizing: border-box;
+  border-radius: 3px;
+}
