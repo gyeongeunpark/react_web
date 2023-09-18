@@ -1,0 +1,30 @@
+/*
+메인 색상
+#937DC2 rgb(147, 125, 194)
+#C689C6 rgb(198, 137, 198)
+#E8A0BF rgb(232, 160, 191)
+#FCC5C0 rgb(252, 197, 192)
+*/
+
+.btn {
+  width: 100%;
+  padding: 0.7rem;
+  cursor: pointer;
+  border-radius: 5px;
+  font-family: ns-eb;
+  border: none;
+  outline: none;
+  color: #fff;
+}
+.style1 {
+  background-color: #937dc2;
+}
+.style2 {
+  background-color: #c689c6;
+}
+.style3 {
+  background-color: #fcc5c0;
+}
+.join-btn-box {
+  padding: 20px 0;
+}

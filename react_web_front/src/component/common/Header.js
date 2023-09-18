@@ -40,7 +40,7 @@ const HeaderLink = () => {
         <span className="material-icons">login</span>
       </Link>
       <Link to="/join" title="회원가입">
-        <span class="material-icons">person_add_alt</span>
+        <span className="material-icons">person_add_alt</span>
       </Link>
     </div>
   );
