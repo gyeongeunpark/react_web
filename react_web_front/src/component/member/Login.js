@@ -4,7 +4,9 @@ import Input from "../util/InputFrm";
 import { Link, useNavigate } from "react-router-dom";
 import { Button1, Button2 } from "../util/Buttons";
 import axios from "axios";
-const Login = () => {
+import Swal from "sweetalert2";
+const Login = (props) => {
+  const setIsLogin = props.setIsLogin;
   const [memberId, setMemberId] = useState("");
   const [memberPw, setMemberPw] = useState("");
   const navigate = useNavigate();
@@ -16,7 +18,12 @@ const Login = () => {
     axios
       .post("/member/login", member)
       .then((res) => {
-        console.log(res.data);
+        if (res.data === "실패") {
+          Swal.fire("아이디 또는 비밀번호를 확인하세요.");
+        } else {
+          setIsLogin(true);
+          navigate("/");
+        }
       })
       .catch((res) => {
         console.log(res.data);

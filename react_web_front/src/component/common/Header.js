@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import "./default.css";
-const Header = () => {
+const Header = (props) => {
+  const isLogin = props.isLogin;
+  const setIsLogin = props.setIsLogin;
   return (
     <header>
       <div className="header">
@@ -8,7 +10,7 @@ const Header = () => {
           <Link to="/">MAIN</Link>
         </div>
         <Navi />
-        <HeaderLink />
+        <HeaderLink isLogin={isLogin} setIsLogin={setIsLogin} />
       </div>
     </header>
   );
@@ -33,15 +35,33 @@ const Navi = () => {
     </div>
   );
 };
-const HeaderLink = () => {
+const HeaderLink = (props) => {
+  const isLogin = props.isLogin;
+  const setIsLogin = props.setIsLogin;
+  const logout = () => {
+    setIsLogin(false);
+  };
   return (
     <div className="header-link">
-      <Link to="/login" title="로그인">
-        <span className="material-icons">login</span>
-      </Link>
-      <Link to="/join" title="회원가입">
-        <span className="material-icons">person_add_alt</span>
-      </Link>
+      {isLogin ? (
+        <>
+          <Link to="/member/mypage" title="mypage">
+            <span className="material-icons">face</span>
+          </Link>
+          <Link to="#" title="로그아웃" onClick={logout}>
+            <span className="material-icons">logout</span>
+          </Link>
+        </>
+      ) : (
+        <>
+          <Link to="/login" title="로그인">
+            <span className="material-icons">login</span>
+          </Link>
+          <Link to="/join" title="회원가입">
+            <span className="material-icons">person_add_alt</span>
+          </Link>
+        </>
+      )}
     </div>
   );
 };

@@ -51,12 +51,13 @@ public class JwtFilter extends OncePerRequestFilter{
 		
 		//인증허가코드
 		ArrayList<SimpleGrantedAuthority> list = new ArrayList<SimpleGrantedAuthority>();
-		list.add(new SimpleGrantedAuthority("USER"));//인증 허가된 사용자에게 USER등급 부여
+		list.add(new SimpleGrantedAuthority("USER"));//인증 허가된 사용자에게 USER등급 부여(DB와 관련없이 내부에서 설정하는 등급)
 		//회원 등급 부여 및 암호화 토큰 생성
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(memberId, null,list);
 		authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 		//해당 request에 대해서 인증을 허용(지금 들어온 요청)
 		SecurityContextHolder.getContext().setAuthentication(authToken);
+		
 		filterChain.doFilter(request, response);
 	}
 }
