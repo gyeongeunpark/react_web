@@ -21,6 +21,7 @@ const Login = (props) => {
         if (res.data === "실패") {
           Swal.fire("아이디 또는 비밀번호를 확인하세요.");
         } else {
+          window.localStorage.setItem("token", res.data);
           setIsLogin(true);
           navigate("/");
         }

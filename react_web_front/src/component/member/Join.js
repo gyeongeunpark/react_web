@@ -63,7 +63,7 @@ const Join = () => {
         //get은 두번째 매개변수에 값을 전달
         //post는 세번째 매개변수가 값을 전달(그래서 중간에 null값이 들어감)
         //.post("/member/join", null, { params: member })
-        .post("/member/join/", member)
+        .post("/member/join", member)
         .then((res) => {
           if (res.data === 1) {
             navigate("/login");

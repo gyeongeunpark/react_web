@@ -29,7 +29,7 @@ public class JwtFilter extends OncePerRequestFilter{
 		System.out.println("filter/auth : "+auth);
 		
 		//1. 인증토큰이 없거나 or 잘못보냈거나 한 경우
-		if(auth == null || !auth.startsWith("Bearer ")) {
+		if(auth == null || !auth.startsWith("Bearer ") || auth.indexOf("null") != -1) {
 			System.out.println("인증이 없거나, 잘못됨");
 			filterChain.doFilter(request, response);
 			return;

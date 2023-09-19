@@ -1,0 +1,34 @@
+/*
+메인 색상
+#937DC2 rgb(147, 125, 194)
+#C689C6 rgb(198, 137, 198)
+#E8A0BF rgb(232, 160, 191)
+#FCC5C0 rgb(252, 197, 192)
+*/
+.new-pw-input-wrap {
+  border-top: 2px solid #937dc2;
+  border-bottom: 2px solid #937dc2;
+  padding: 10px 0;
+}
+.pw-input-wrap > div {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 10px 0;
+}
+.pw-input-wrap > div > label {
+  width: 20%;
+  color: #937dc2;
+  font-size: 18px;
+  font-family: ns-b;
+}
+.pw-input-wrap > div > input {
+  width: 50%;
+  margin: 0px 35px;
+}
+.pw-input-wrap > div > button {
+  width: 20%;
+}
+.change-btn-box {
+  margin-top: 30px;
+}

@@ -1,0 +1,36 @@
+/*
+메인 색상
+#937DC2 rgb(147, 125, 194)
+#C689C6 rgb(198, 137, 198)
+#E8A0BF rgb(232, 160, 191)
+#FCC5C0 rgb(252, 197, 192)
+*/
+.my-info-tbl {
+  width: 100%;
+  border-spacing: 0;
+  border-top: 2px solid #937dc2;
+  border-bottom: 2px solid #937dc2;
+  padding: 10px;
+}
+.my-info-tbl > tbody > tr > td:first-child {
+  width: 30%;
+}
+.my-info-tbl > tbody > tr > td {
+  padding: 20px 10px;
+}
+#member-phone {
+  padding: 0;
+}
+#member-phone > div {
+  display: flex;
+  justify-content: space-between;
+}
+#member-phone > div > input {
+  width: 60%;
+}
+#member-phone > div > button {
+  width: 30%;
+}
+.delete-btn-box {
+  margin-top: 50px;
+}

@@ -39,13 +39,14 @@ const HeaderLink = (props) => {
   const isLogin = props.isLogin;
   const setIsLogin = props.setIsLogin;
   const logout = () => {
+    window.localStorage.removeItem("token");
     setIsLogin(false);
   };
   return (
     <div className="header-link">
       {isLogin ? (
         <>
-          <Link to="/member/mypage" title="mypage">
+          <Link to="/member" title="mypage">
             <span className="material-icons">face</span>
           </Link>
           <Link to="#" title="로그아웃" onClick={logout}>

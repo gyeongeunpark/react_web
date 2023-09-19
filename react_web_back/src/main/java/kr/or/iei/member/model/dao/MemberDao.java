@@ -11,4 +11,12 @@ public interface MemberDao {
 
 	int insertMember(Member member);
 
+	int changePhone(Member member);
+
+	int delete(String memberId);
+
+	int changePwMember(Member member);
+
+
+
 }

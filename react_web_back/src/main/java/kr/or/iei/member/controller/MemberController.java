@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,5 +50,32 @@ public class MemberController {
 	public String login(@RequestBody Member member) {
 		String result = memberService.login(member);
 		return result;
+	}
+	
+	@PostMapping(value="/getMember")
+	public Member mypage(@RequestAttribute String memberId) {
+		return memberService.selectOneMember(memberId);
+	}
+	
+	@PostMapping(value="/changePhone")
+	public int changePhone(@RequestBody Member member) {
+		return memberService.changePhone(member);
+	}
+	
+	@PostMapping(value="/delete")
+	public int delete(@RequestAttribute String memberId) {
+		return memberService.delete(memberId);
+	}
+	
+	@PostMapping(value="/pwCheck")
+	public int pwCheck(@RequestAttribute String memberId, @RequestBody Member member) {
+		member.setMemberId(memberId);
+		return memberService.pwCheck(member);
+	}
+	
+	@PostMapping(value="/changePw")
+	public int changePw(@RequestBody Member member, @RequestAttribute String memberId) {
+		member.setMemberId(memberId);
+		return memberService.changePwMember(member);
 	}
 }
