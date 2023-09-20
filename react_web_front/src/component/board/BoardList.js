@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Pagination from "../common/Pagination";
 import { Button2 } from "../util/Buttons";
+import { useNavigate } from "react-router-dom";
 
 const BoardList = (props) => {
   const [boardList, setBoardList] = useState([]);
@@ -24,11 +25,15 @@ const BoardList = (props) => {
   }, [reqPage]);
   //useEffect는 최초에 한번 시작하고 []배열 안의 값이 바뀔때마다 랜더링됨
   //클릭할때마다 setRepPage가 바뀌면 값이 바뀜->Pagination.js에서 이벤트 changePage만들기
+  const navigate = useNavigate();
+  const write = () => {
+    navigate("write");
+  };
   return (
     <div>
       {isLogin ? (
         <div className="board-write-btn">
-          <Button2 text="글쓰기" />
+          <Button2 text="글쓰기" clickEvent={write} />
         </div>
       ) : (
         ""

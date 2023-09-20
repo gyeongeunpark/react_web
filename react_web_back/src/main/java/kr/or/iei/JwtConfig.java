@@ -29,7 +29,7 @@ public class JwtConfig {
 				//post요청중에 /member/login, /member/join은 그냥 허용
 				.antMatchers(HttpMethod.POST,"/member/login","/member/join").permitAll()
 				//post요청중에 /member/로 시작하면 반드시 인증을 하도록 설정
-				.antMatchers(HttpMethod.POST,"/member/**").authenticated()
+				.antMatchers(HttpMethod.POST,"/member/**","/board/insert").authenticated()
 				.and()
 				.sessionManagement()		//세션관련 설정
 				//세션을 상태없는 상태로 운영 -> JWT로 인증하는 경우 사용하는 설정
