@@ -5,6 +5,7 @@ import Join from "./component/member/Join";
 import Login from "./component/member/Login";
 import { useEffect, useState } from "react";
 import MemberMain from "./component/member/MemberMain";
+import BoardMain from "./component/board/BoardMain";
 
 function App() {
   //기본은 로그인이 안된 상태
@@ -28,6 +29,10 @@ function App() {
       <Header isLogin={isLogin} setIsLogin={setIsLogin} />
       <div className="content">
         <Routes>
+          <Route
+            path="/board/*"
+            element={<BoardMain isLogin={isLogin} setIsLogin={setIsLogin} />}
+          />
           <Route path="/join" element={<Join />} />
           <Route path="/login" element={<Login setIsLogin={setIsLogin} />} />
           <Route

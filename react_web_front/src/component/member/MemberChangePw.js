@@ -34,8 +34,8 @@ const MemberChangePw = (props) => {
       .catch((res) => {});
   };
   const changePw = () => {
-    if (memberPw !== memberPwRe) {
-      Swal.fire({ title: "비밀번호가 일치하지 않습니다." });
+    if (memberPw === "" && memberPw !== memberPwRe) {
+      Swal.fire({ title: "비밀번호를 확인하세요" });
     } else {
       axios
         .post(
@@ -48,8 +48,22 @@ const MemberChangePw = (props) => {
           }
         )
         .then((res) => {
-          setIsPwauth(false);
-          Swal.fire({ title: "비밀번호 변경 성공" });
+          if (res.data === 1) {
+            setIsPwauth(false);
+            setCurrPw("");
+            setMemberPw("");
+            setMemberPwRe("");
+            Swal.fire({ title: "비밀번호 변경 성공" });
+          } else {
+            Swal.fire(
+              "비밀번호 변경 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요"
+            );
+          }
+        })
+        .catch((res) => {
+          if (res.response.status === 403) {
+            window.localStorage.removeItem("token");
+          }
         });
     }
   };
