@@ -2,6 +2,7 @@ import { useState } from "react";
 import BoardFrm from "./BoardFrm";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const BoardWrite = () => {
   //제목,썸네일,내용,첨부파일 그외는 자동으로 -> 전송용 데이터를 담을 state
@@ -15,6 +16,7 @@ const BoardWrite = () => {
   const [boardImg, setBoardImg] = useState("");
   const [fileList, setFileList] = useState([]);
 
+  const navigate = useNavigate();
   //글쓰기 버튼 클릭시 동작할 함수(서버에 insert요청함수)
   const write = () => {
     console.log(boardTitle);
@@ -44,6 +46,9 @@ const BoardWrite = () => {
         })
         .then((res) => {
           console.log(res.data);
+          if (res.data > 0) {
+            navigate("/board");
+          }
         })
         .catch((res) => {
           console.log(res.response.status);

@@ -55,10 +55,19 @@ const BoardList = (props) => {
 };
 const BoardItem = (props) => {
   const board = props.board;
+  const navigate = useNavigate();
+  const boardView = () => {
+    //이 함수가 동작하면 페이지이동 & 게시물번호 전송
+    navigate("/board/view", { state: { boardNo: board.boardNo } });
+  };
   return (
-    <div className="board-item">
+    <div className="board-item" onClick={boardView}>
       <div className="board-item-img">
-        {board.boardImg === null ? <img src="/image/default.png" /> : ""}
+        {board.boardImg === null ? (
+          <img src="/image/default.png" />
+        ) : (
+          <img src={"/board/" + board.boardImg} />
+        )}
       </div>
       <div className="board-item-info">
         <div className="board-item-title">{board.boardTitle}</div>
