@@ -179,3 +179,6 @@
 .board-file > .file-name {
   margin-left: 30px;
 }
+.board-content-box .ql-container {
+  height: 400px;
+}

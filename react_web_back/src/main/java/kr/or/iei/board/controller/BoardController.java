@@ -101,4 +101,14 @@ public class BoardController {
 				.contentType(MediaType.APPLICATION_OCTET_STREAM)
 				.body(resource);
 	}
+	
+	@PostMapping(value="/contentImg")
+	//multipartFile 변수명은 form.append에서 준 키값으로 가져와야함
+	public String contentImg(@ModelAttribute MultipartFile image) {
+		String savepath = root+"board/editor/";
+		String filename = image.getOriginalFilename();
+		String filepath = fileUtil.getFilepath(savepath, filename, image);
+		return "/board/editor/"+filepath;
+		//return filepath를 하면 여러군데서 쓰기 힘드므로 
+	}
 }
