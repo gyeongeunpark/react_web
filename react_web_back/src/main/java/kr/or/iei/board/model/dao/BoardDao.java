@@ -25,4 +25,20 @@ public interface BoardDao {
 
 	BoardFile getBoardFile(int boardFileNo);
 
+	List<BoardFile> selectBoardFileList(int boardNo);
+
+	int deleteBoard(int boardNo);
+
+	List<BoardFile> selectBoardFile(String[] delFileNo);
+
+	int deleteBoardFile(String[] delFileNo);
+
+	int updateBoard(Board b);
+
+	int adminTotalCount();
+
+	List adminBoardList(PageInfo pi);
+
+	int changeStatus(Board b);
+
 }

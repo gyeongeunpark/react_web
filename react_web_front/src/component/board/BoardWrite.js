@@ -7,13 +7,13 @@ import { useNavigate } from "react-router-dom";
 const BoardWrite = () => {
   //제목,썸네일,내용,첨부파일 그외는 자동으로 -> 전송용 데이터를 담을 state
   const [boardTitle, setBoardTitle] = useState("");
-  const [thumbnail, setThumbnail] = useState({}); //객체로 받아서 저장
-  //첨부파일로 받아야하는데 변수명이 vo와 같으면 multipart쓸때 에러날수 있음 그래서 변수명 다르게 처리
   const [boardDetail, setBoardDetail] = useState("");
+  //첨부파일로 받아야하는데 변수명이 vo와 같으면 multipart쓸때 에러날수 있음 그래서 변수명 다르게 처리
+  const [thumbnail, setThumbnail] = useState({}); //객체로 받아서 저장
   const [boardFile, setBoardFile] = useState([]); //배열로 받아서 저장
 
   //boardImg -> 썸네일 미리보기용, fileList -> 첨부파일 목록 출력용(화면용 state)
-  const [boardImg, setBoardImg] = useState("");
+  const [boardImg, setBoardImg] = useState(null); //데이터 없으면 null로 들어오므로
   const [fileList, setFileList] = useState([]);
 
   const navigate = useNavigate();

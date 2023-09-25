@@ -1,12 +1,17 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Button1, Button2, Button3 } from "../util/Buttons";
+import Swal from "sweetalert2";
 
 const BoardView = (props) => {
   const isLogin = props.isLogin;
   const location = useLocation();
   const boardNo = location.state.boardNo;
   const [board, setBoard] = useState([]);
+  //사용자를 알기위한 state생성,로그인 안하고 올 수도 있으므로 null로 일단 처리
+  const [member, setMember] = useState(null);
+  const navigate = useNavigate();
   useEffect(() => {
     axios
       .get("/board/view/" + boardNo)
@@ -17,7 +22,71 @@ const BoardView = (props) => {
       .catch((res) => {
         console.log(res.data);
       });
+    if (isLogin) {
+      const token = window.localStorage.getItem("token");
+      axios
+        .post("/member/getMember", null, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        })
+        .then((res) => {
+          setMember(res.data);
+        })
+        .catch((res) => {
+          console.log(res.response.status);
+        });
+    }
   }, []);
+  const modify = () => {
+    navigate("/board/modify", { state: { board: board } });
+  };
+  const deleteBoard = () => {
+    Swal.fire({
+      icon: "warning",
+      text: "게시글을 삭제하시겠습니까?",
+      showCancelButton: true,
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then((res) => {
+      //삭제 버튼 눌렀을때
+      if (res.isConfirmed) {
+        axios
+          .get("/board/delete/" + board.boardNo)
+          .then((res) => {
+            console.log(res.data);
+            if (res.data === 1) {
+              navigate("/board");
+            }
+          })
+          .catch((res) => {
+            console.log(res.response.status);
+          });
+      }
+    });
+  };
+  const changeStatus = () => {
+    //차단 버튼 누르면 무조건 안보이게 status == 2
+    const obj = { boardNo: board.boardNo, boardStatus: 2 };
+    const token = window.localStorage.getItem("token");
+    axios
+      .post("/board/changeStatus", obj, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        if (res.data === 1) {
+          Swal.fire("게시물이 차단되었습니다.");
+          navigate("/board");
+        } else {
+          Swal.fire("변경 중 문제가 발생했습니다.");
+        }
+      })
+      .catch((res) => {
+        console.log(res);
+      });
+  };
   return (
     <div className="board-view-wrap">
       <div className="board-view-title">{board.boardTitle}</div>
@@ -43,6 +112,25 @@ const BoardView = (props) => {
         className="board-view-detail"
         dangerouslySetInnerHTML={{ __html: board.boardDetail }}
       ></div>
+      <div className="board-view-btn-zone">
+        {isLogin ? (
+          member && member.memberNo === board.boardWriter ? (
+            <>
+              <Button2 text="수정" clickEvent={modify} />
+              <Button1 text="삭제" clickEvent={deleteBoard} />
+            </>
+          ) : (
+            ""
+          )
+        ) : (
+          ""
+        )}
+        {member && member.memberType === 1 ? (
+          <Button3 clickEvent={changeStatus} text="차단" />
+        ) : (
+          ""
+        )}
+      </div>
     </div>
   );
   //board.boardImg ? : -> 데이터가 있으면 참 아니면 거짓

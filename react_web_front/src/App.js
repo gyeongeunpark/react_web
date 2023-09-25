@@ -4,8 +4,10 @@ import Header from "./component/common/Header";
 import Join from "./component/member/Join";
 import Login from "./component/member/Login";
 import { useEffect, useState } from "react";
-import MemberMain from "./component/member/MemberMain";
+import { MemberMain } from "./component/member/MemberMain";
+//MemberMain에서 export를 {}형태로 주면 app.js에서도 {}로 묶어둬야함
 import BoardMain from "./component/board/BoardMain";
+import AdminMain from "./component/admin/AdminMain";
 
 function App() {
   //기본은 로그인이 안된 상태
@@ -29,6 +31,7 @@ function App() {
       <Header isLogin={isLogin} setIsLogin={setIsLogin} />
       <div className="content">
         <Routes>
+          <Route path="/admin/*" element={<AdminMain isLogin={isLogin} />} />
           <Route
             path="/board/*"
             element={<BoardMain isLogin={isLogin} setIsLogin={setIsLogin} />}

@@ -78,4 +78,59 @@
 	<select id="getBoardFile" resultType="boardFile">
 		select * from board_file where board_file_no=#{boardFileNo}
 	</select>
+	
+	<select id="selectBoardFileList" resultType="boardFile">
+		select * from board_file where board_no=#{boardNo}
+	</select>
+	
+	<delete id="deleteBoard">
+		delete from board where board_no=#{boardNo}
+	</delete>
+	
+	<select id="selectBoardFile" resultType="boardFile">
+		select * from board_file
+		where board_file_no in 
+		<foreach collection="array" open="(" close=")" separator="," item="fileNo">
+			#{fileNo}
+		</foreach>
+	</select>
+	<delete id="deleteBoardFile">
+		delete from board_file
+		where board_file_no in
+		<foreach collection="array" open="(" close=")" separator="," item="fileNo">
+			#{fileNo}
+		</foreach>
+	</delete>
+	
+	<update id="updateBoard">
+		update board set
+			board_title = #{boardTitle},
+			board_img = #{boardImg},
+			board_detail = #{boardDetail}
+		where board_no = #{boardNo}
+	</update>
+	
+	<select id="adminTotalCount" resultType="int">
+		select count(*) from board
+	</select>
+	
+	<select id="adminBoardList" resultType="board">
+		SELECT * FROM
+			(SELECT ROWNUM AS RNUM, B.* FROM
+				(SELECT
+					BOARD_NO,
+					BOARD_TITLE,
+					BOARD_WRITER,
+					MEMBER_ID,
+					BOARD_STATUS,
+					TO_CHAR(BOARD_DATE,'YYYY-MM-DD')AS BOARD_DATE
+				FROM BOARD
+				JOIN MEMBER_TBL ON (BOARD_WRITER = MEMBER_NO)
+				ORDER BY 1 DESC)B)
+		WHERE RNUM BETWEEN #{start} AND #{end}
+	</select>
+	
+	<update id="changeStatus">
+		update board set board_status = #{boardStatus} where board_no=#{boardNo}
+	</update>
 </mapper>

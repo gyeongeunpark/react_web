@@ -1,5 +1,7 @@
 package kr.or.iei.member.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -77,5 +79,16 @@ public class MemberController {
 	public int changePw(@RequestBody Member member, @RequestAttribute String memberId) {
 		member.setMemberId(memberId);
 		return memberService.changePwMember(member);
+	}
+	
+	@GetMapping(value="/list/{reqPage}")
+	//회원목록과 페이징을 같이 가져가기위해 Map을 씀
+	public Map list(@PathVariable int reqPage) {
+		return memberService.memberList(reqPage);
+	}
+	
+	@PostMapping(value="/changeType")
+	public int changeType(@RequestBody Member member) {
+		return memberService.changeType(member);
 	}
 }

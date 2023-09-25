@@ -74,4 +74,57 @@ public class BoardService {
 	public BoardFile getBoardFile(int boardFileNo) {
 		return boardDao.getBoardFile(boardFileNo);
 	}
+
+	@Transactional
+	public List<BoardFile> delete(int boardNo) {
+		//파일목록 조회
+		List<BoardFile> list = boardDao.selectBoardFileList(boardNo);
+		//게시글 삭제
+		int result = boardDao.deleteBoard(boardNo);
+		if(result>0) {
+			return list;//파일 리스트 넘겨주기
+		}else {
+			return null;
+		}
+	}
+
+	@Transactional
+	public List<BoardFile> modify(Board b, ArrayList<BoardFile> fileList) {
+		List<BoardFile> delFilelist = new ArrayList<BoardFile>();
+		String[] delFileNo = {};
+		int result = 0;
+		if(!b.getDelFileNo().equals("")) {//delFileNo가 "" 즉, 삭제할 파일이 없다면
+			delFileNo = b.getDelFileNo().split("/");//"/"을 기준으로 잘라서 배열에 저장
+			//1. 삭제할 파일이 있으면 조회
+			delFilelist = boardDao.selectBoardFile(delFileNo);
+			//2. 삭제할 파일 삭제
+			result += boardDao.deleteBoardFile(delFileNo);
+		}
+		//3. 추가할 파일 있으면 추가 -> 추가한 파일이 없으면 for문은 안돌아감
+		for(BoardFile bf : fileList) {
+			result += boardDao.insertBoardFile(bf);
+		}
+		//4. board테이블 변경
+		result += boardDao.updateBoard(b);
+		if(result == 1+fileList.size()+delFileNo.length) {
+			return delFilelist;
+		}
+		return null;
+	}
+
+	public Map adminList(int reqPage) {
+		int totalCount = boardDao.adminTotalCount();
+		int numPerPage = 10;
+		int pageNaviSize = 5;
+		PageInfo pi = pagination.getPageInfo(reqPage, numPerPage, pageNaviSize, totalCount);
+		List boardList = boardDao.adminBoardList(pi);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("list",boardList);
+		map.put("pi", pi);
+		return map;
+	}
+
+	public int changeStatus(Board b) {
+		return boardDao.changeStatus(b);
+	}
 }

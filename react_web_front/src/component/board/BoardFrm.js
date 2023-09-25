@@ -16,10 +16,14 @@ const BoardFrm = (props) => {
   const setBoardImg = props.setBoardImg;
   const fileList = props.fileList;
   const setFileList = props.setFileList;
-  //새 첨부파일 출력용 state, (fileList는 수정할때 필요함)
-  const [newFileList, setNewFileList] = useState([]);
   const buttonEvent = props.buttonEvent;
   const type = props.type;
+  const delFileNo = props.delFileNo;
+  const setDelFileNo = props.setDelFileNo;
+
+  //새 첨부파일 출력용 state, (fileList는 수정할때 필요함)
+  const [newFileList, setNewFileList] = useState([]);
+
   const thumbnailChange = (e) => {
     const files = e.currentTarget.files;
     if (files.length !== 0 && files[0] != 0) {
@@ -32,7 +36,7 @@ const BoardFrm = (props) => {
       };
     } else {
       setThumbnail({}); //없으면 빈 객체 보내주면 됨
-      setBoardImg("");
+      setBoardImg(null);
     }
   };
   const changeFile = (e) => {
@@ -48,7 +52,7 @@ const BoardFrm = (props) => {
     <div className="board-frm-wrap">
       <div className="board-frm-top">
         <div className="board-thumbnail">
-          {boardImg === "" ? (
+          {boardImg === null ? (
             <img src="/image/default.png" />
           ) : (
             <img src={boardImg} />
@@ -100,6 +104,20 @@ const BoardFrm = (props) => {
                 <td>첨부파일 목록</td>
                 <td>
                   <div className="file-zone">
+                    {type === "modify"
+                      ? fileList.map((item, index) => {
+                          return (
+                            <FileItem
+                              key={"f" + index}
+                              item={item}
+                              delFileNo={delFileNo}
+                              setDelFileNo={setDelFileNo}
+                              fileList={fileList}
+                              setFileList={setFileList}
+                            />
+                          );
+                        })
+                      : ""}
                     {newFileList.map((item, index) => {
                       return (
                         <p key={"newFile" + index}>
@@ -122,10 +140,38 @@ const BoardFrm = (props) => {
         />
       </div>
       <div className="board-btn-box">
-        <Button1 text="작성하기" clickEvent={buttonEvent} />
+        {type === "modify" ? (
+          <Button1 text="수정하기" clickEvent={buttonEvent} />
+        ) : (
+          <Button1 text="작성하기" clickEvent={buttonEvent} />
+        )}
       </div>
     </div>
   );
 };
-
+//삭제까지 해주기 위해 component로 빼줌
+const FileItem = (props) => {
+  const item = props.item;
+  const delFileNo = props.delFileNo;
+  const setDelFileNo = props.setDelFileNo;
+  const fileList = props.fileList;
+  const setFileList = props.setFileList;
+  const deleteFile = () => {
+    delFileNo.push(item.boardFileNo);
+    setDelFileNo([...delFileNo]);
+    const newArr = fileList.filter((file) => {
+      //새로운 배열에서 같은 번호가 있으면 지워야함
+      return item.boardFileNo !== file.boardFileNo;
+    });
+    setFileList(newArr);
+  };
+  return (
+    <p>
+      <span className="filename">{item.filename}</span>
+      <span className="material-icons del-file-icon" onClick={deleteFile}>
+        delete
+      </span>
+    </p>
+  );
+};
 export default BoardFrm;

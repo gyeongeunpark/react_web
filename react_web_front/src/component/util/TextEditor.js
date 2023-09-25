@@ -1,7 +1,10 @@
 import axios from "axios";
 import { useMemo, useRef } from "react";
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import ImageResize from "quill-image-resize-module-react";
+Quill.register("modules/ImageResize", ImageResize);
+//이미지 크기조절할때 {Quill} -> import imageResize해주면됨
 
 const TextEditor = (props) => {
   const data = props.data;
@@ -82,6 +85,10 @@ const TextEditor = (props) => {
           //이미지 업로드 버튼 클릭시 우리가 만든 함수가 동작하도록 설정
           image: imageHandler,
         },
+      },
+      ImageResize: {
+        parchment: Quill.import("parchment"),
+        modules: ["Resize", "DisplaySize", "Toolbar"],
       },
     };
   }, []);
