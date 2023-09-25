@@ -8,6 +8,7 @@ import { MemberMain } from "./component/member/MemberMain";
 //MemberMain에서 export를 {}형태로 주면 app.js에서도 {}로 묶어둬야함
 import BoardMain from "./component/board/BoardMain";
 import AdminMain from "./component/admin/AdminMain";
+import Main from "./component/common/Main";
 
 function App() {
   //기본은 로그인이 안된 상태
@@ -31,6 +32,7 @@ function App() {
       <Header isLogin={isLogin} setIsLogin={setIsLogin} />
       <div className="content">
         <Routes>
+          <Route path="/" element={<Main />} />
           <Route path="/admin/*" element={<AdminMain isLogin={isLogin} />} />
           <Route
             path="/board/*"
